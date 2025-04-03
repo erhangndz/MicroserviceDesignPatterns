@@ -4,7 +4,7 @@ namespace Order.API.Services.OrderServices
 {
     public interface IOrderService
     {
-        Task<CreateOrderDto> CreateOrderAsync(CreateOrderDto orderDto);
+        Task CreateOrderAsync(Entities.Order order);
         Task<OrderDto> GetOrderByIdAsync(int id);
         Task<List<OrderDto>> GetOrdersAsync();
         Task UpdateOrderAsync(OrderDto orderDto);

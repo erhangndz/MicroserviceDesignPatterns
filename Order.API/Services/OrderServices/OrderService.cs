@@ -8,14 +8,9 @@ namespace Order.API.Services.OrderServices
 {
     public class OrderService(IRepository<Entities.Order> orderRepository, IMapper mapper) : IOrderService
     {
-        public async Task<CreateOrderDto> CreateOrderAsync(CreateOrderDto orderDto)
+        public async Task CreateOrderAsync(Entities.Order order)
         {
-            var entity = mapper.Map<Entities.Order>(orderDto);
-
-            await orderRepository.AddAsync(entity);
-
-            return mapper.Map<CreateOrderDto>(entity);
-
+            await orderRepository.AddAsync(order);
         }
 
         public async Task<OrderDto> GetOrderByIdAsync(int id)

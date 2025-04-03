@@ -9,7 +9,7 @@ namespace Order.API.Entities
         public Address Address { get; set; }
         public DateTime OrderDate { get; set; }
         public string Status { get; set; }
-        public string FailMessage { get; set; }
-        public IList<OrderItem> Items { get; set; }
+        public string? FailMessage { get; set; }
+        public IList<OrderItem> Items { get; set; } = new List<OrderItem>();
     }
 }

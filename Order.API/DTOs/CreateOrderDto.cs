@@ -5,15 +5,15 @@ namespace Order.API.DTOs
 {
     public class CreateOrderDto
     {
-        public int Id { get; set; }
-        public DateTime OrderDate { get; set; }= DateTime.Now;
-        public string Status { get; set; } = Enum.GetName(OrderStatus.Suspended);
-        public string FailMessage { get; set; }
+ 
+
         public string CustomerId { get; set; }
 
-        public List<OrderItemDto> Items { get; set; }
+        public List<OrderItemDto> OrderItems { get; set; }
 
         public PaymentDto Payment { get; set; }
+
+        public AddressDto Address { get; set; }
 
 
 
