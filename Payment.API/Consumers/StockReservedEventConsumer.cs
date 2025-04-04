@@ -14,7 +14,7 @@ namespace Payment.API.Consumers
             {
                 _logger.LogInformation($"{context.Message.Payment.TotalPrice} TL was withdrawn from credit card for CustomerId:  {context.Message.CustomerId}");
 
-                await _publishEndpoint.Publish(new PaymentSuccessEvent
+                await _publishEndpoint.Publish(new PaymentCompletedEvent
                 {
                     CustomerId = context.Message.CustomerId,
                     OrderId = context.Message.OrderId
@@ -28,7 +28,8 @@ namespace Payment.API.Consumers
                 {
                     CustomerId = context.Message.CustomerId,
                     OrderId = context.Message.OrderId,
-                    Message = $"Not Enough Balance for {context.Message.Payment.TotalPrice} TL"
+                    OrderItems = context.Message.OrderItems,
+                    FailMessage = $"Not Enough Balance for {context.Message.Payment.TotalPrice} TL"
                 });
             }
         }

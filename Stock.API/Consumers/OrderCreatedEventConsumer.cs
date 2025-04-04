@@ -49,7 +49,7 @@ public class OrderCreatedEventConsumer(AppDbContext _context, ILogger<OrderCreat
             await _publishEndpoint.Publish(new StockNotReservedEvent()
             {
                 OrderId = context.Message.OrderId,
-                Message = "Not Enough Stock"
+                FailMessage = "Not Enough Stock"
             });
 
             _logger.LogInformation($"Not Enough Stock for Customer Id :  {context.Message.CustomerId} ");
