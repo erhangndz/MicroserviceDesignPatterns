@@ -2,7 +2,6 @@ using System.Reflection;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Order.API;
-using Order.API.Consumers;
 using Order.API.Repositories;
 using Order.API.Services.OrderServices;
 using Scalar.AspNetCore;
@@ -22,27 +21,12 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddMassTransit(config =>
 {
 
-    config.AddConsumer<PaymentCompletedEventConsumer>();
-    config.AddConsumer<PaymentFailedEventConsumer>();
-    config.AddConsumer<StockNotReservedEventConsumer>();
+    
     config.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration.GetConnectionString("RabbitMQ"));
 
-        cfg.ReceiveEndpoint(RabbitMQSettingsConst.PaymentCompletedEventQueueName, e =>
-        {
-            e.ConfigureConsumer<PaymentCompletedEventConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint(RabbitMQSettingsConst.PaymentFailedEventQueueName, e =>
-        {
-            e.ConfigureConsumer<PaymentFailedEventConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint(RabbitMQSettingsConst.StockNotReservedEventQueueName, e =>
-        {
-            e.ConfigureConsumer<StockNotReservedEventConsumer>(context);
-        });
+        
     });
 });
 

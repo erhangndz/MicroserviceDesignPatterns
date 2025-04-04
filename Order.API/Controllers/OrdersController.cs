@@ -6,12 +6,13 @@ using Order.API.Enums;
 using Order.API.Services.OrderServices;
 using Shared;
 using Shared.Events;
+using Shared.Interfaces;
 
 namespace Order.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController(IOrderService orderService,IPublishEndpoint publishEndpoint) : ControllerBase
+    public class OrdersController(IOrderService orderService, ISendEndpointProvider _sendEndpointProvider) : ControllerBase
     {
 
         [HttpPost]
@@ -43,7 +44,7 @@ namespace Order.API.Controllers
 
             await orderService.CreateOrderAsync(newOrder);
 
-            var orderCreatedEvent = new OrderCreatedEvent
+            var orderCreatedRequestEvent = new OrderCreatedRequestEvent()
             {
                 OrderId = newOrder.Id,
                 CustomerId = newOrder.CustomerId,
@@ -61,14 +62,16 @@ namespace Order.API.Controllers
 
             createOrderDto.OrderItems.ForEach(item =>
             {
-                orderCreatedEvent.OrderItems.Add(new OrderItemMessage
+                orderCreatedRequestEvent.OrderItems.Add(new OrderItemMessage
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity
                 });
             });
 
-            await publishEndpoint.Publish(orderCreatedEvent);
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri(RabbitMQSettingsConst.OrderSagaQueueName));
+
+            await sendEndpoint.Send<IOrderCreatedRequestEvent>(orderCreatedRequestEvent);
 
             return Ok();
         }

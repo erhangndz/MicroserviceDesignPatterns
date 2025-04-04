@@ -2,7 +2,6 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Shared;
-using Stock.API.Consumers;
 using Stock.API.Context;
 using Stock.API.Entities;
 
@@ -15,21 +14,11 @@ builder.Services.AddMassTransit(config =>
 
 
 
-    config.AddConsumer<OrderCreatedEventConsumer>();
-    config.AddConsumer<PaymentFailedEventConsumer>();
-
     config.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration.GetConnectionString("RabbitMQ"));
-        cfg.ReceiveEndpoint(RabbitMQSettingsConst.StockOrderCreatedEventQueueName, e =>
-        {
-            e.ConfigureConsumer<OrderCreatedEventConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint(RabbitMQSettingsConst.StockPaymentFailedEventQueueName, e =>
-        {
-            e.ConfigureConsumer<PaymentFailedEventConsumer>(context);
-        });
+        
+        
     });
 });
 builder.Services.AddDbContext<AppDbContext>(opt =>
