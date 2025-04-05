@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.Interfaces;
 
 namespace Shared.Events
 {
-    public class StockReservedEvent
+    public class StockReservedEvent(Guid correlaitonId): IStockReservedEvent
     {
-        public int OrderId { get; set; }
-        public string CustomerId { get; set; }
-        public PaymentMessage Payment { get; set; }
+ 
 
-        public IList<OrderItemMessage> OrderItems { get; set; } = new List<OrderItemMessage>();
+        public IList<OrderItemMessage> OrderItems { get; set; } 
+        public Guid CorrelationId { get; } = correlaitonId;
+       
     }
 }

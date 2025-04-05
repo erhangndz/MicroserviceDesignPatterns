@@ -1,12 +1,11 @@
-﻿namespace Shared.Events
+﻿using Shared.Interfaces;
+
+namespace Shared.Events
 {
-    public class OrderCreatedEvent
+    public class OrderCreatedEvent(Guid correlationId) : IOrderCreatedEvent
     {
-        public int OrderId { get; set; }
-        public string CustomerId { get; set; }
+        public IList<OrderItemMessage> OrderItems { get; set; }
 
-        public PaymentMessage Payment { get; set; }
-
-        public List<OrderItemMessage> OrderItems { get; set; } = new List<OrderItemMessage>();
+        public Guid CorrelationId { get; } = correlationId;
     }
 }

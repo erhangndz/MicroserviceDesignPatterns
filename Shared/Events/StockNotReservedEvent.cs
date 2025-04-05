@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Shared.Interfaces;
 
 namespace Shared.Events
 {
-    public class StockNotReservedEvent
+    public class StockNotReservedEvent(Guid correlationId): IStockNotReservedEvent
     {
 
-        public int OrderId { get; set; }
-        public string FailMessage { get; set; }
+        public string Reason { get; set; }
 
+        public Guid CorrelationId { get; } = correlationId;
     }
 }

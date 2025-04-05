@@ -12,6 +12,8 @@
 
         public const string StockNotReservedEventQueueName = "stock-not-reserved-queue";
 
+        public const string StockReservedRequestForPaymentQueueName = "stock-reserved-request-for-payment-queue";
+
 
     }
 }
