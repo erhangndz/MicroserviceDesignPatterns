@@ -2,10 +2,12 @@
 
 namespace Shared.Interfaces
 {
-    public interface IStockReservedRequestForPayment: CorrelatedBy<Guid>
+    public interface IPaymentFailedEvent: CorrelatedBy<Guid>
     {
+       
         public string CustomerId { get; set; }
+        public string Reason { get; set; }
         public IList<OrderItemMessage> OrderItems { get; set; }
-        public PaymentMessage Payment { get; set; }
     }
+    
 }

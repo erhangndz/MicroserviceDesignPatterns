@@ -5,6 +5,7 @@ namespace Shared.Events
 {
     public class StockReservedRequestForPayment(Guid correlationId) : IStockReservedRequestForPayment
     {
+        public string CustomerId { get; set; }
         public IList<OrderItemMessage> OrderItems { get; set; }
         public PaymentMessage Payment { get; set; }
 

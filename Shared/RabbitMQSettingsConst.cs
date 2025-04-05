@@ -14,6 +14,8 @@
 
         public const string StockReservedRequestForPaymentQueueName = "stock-reserved-request-for-payment-queue";
 
+        public const string OrderRequestCompletedEventQueueName = "order-request-completed-queue";
+
 
     }
 }

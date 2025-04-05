@@ -2,10 +2,12 @@ using System.Reflection;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Order.API;
+using Order.API.Consumers;
 using Order.API.Repositories;
 using Order.API.Services.OrderServices;
 using Scalar.AspNetCore;
 using Shared;
+using Shared.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +22,16 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 builder.Services.AddMassTransit(config =>
 {
-
+    config.AddConsumer<OrderRequestCompletedEventConsumer>();
     
     config.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration.GetConnectionString("RabbitMQ"));
 
-        
+        cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderRequestCompletedEventQueueName, e =>
+        {
+            e.ConfigureConsumer<OrderRequestCompletedEventConsumer>(context);
+        });
     });
 });
 
