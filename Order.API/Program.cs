@@ -23,6 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddMassTransit(config =>
 {
     config.AddConsumer<OrderRequestCompletedEventConsumer>();
+    config.AddConsumer<OrderRequestFailedEventConsumer>();
     
     config.UsingRabbitMq((context, cfg) =>
     {
@@ -31,6 +32,11 @@ builder.Services.AddMassTransit(config =>
         cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderRequestCompletedEventQueueName, e =>
         {
             e.ConfigureConsumer<OrderRequestCompletedEventConsumer>(context);
+        });
+
+        cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderRequestFailedEventQueueName, e =>
+        {
+            e.ConfigureConsumer<OrderRequestFailedEventConsumer>(context);
         });
     });
 });
