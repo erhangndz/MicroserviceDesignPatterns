@@ -20,8 +20,4 @@
     <PackageReference Include="Scalar.AspNetCore" Version="2.1.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.csproj" />
-  </ItemGroup>
-
 </Project>
